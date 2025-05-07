@@ -63,7 +63,8 @@ CDTCExecCtrl CDTCHandler::GetExecCtrl() {
 		execCtrl.mExecCtrl = ExecCtrlPrioTC;
 		break;
 	//TODO 03 Set ST[20,X] as ExecCtrlBKGTC
-
+	case (20):
+			execCtrl.mExecCtrl = ExecCtrlBKGTC;
 	default:
 		execCtrl.mExecCtrl = ExecCtrlBKGTC;
 		break;
@@ -95,7 +96,9 @@ void CDTCHandler::ExecTC() {
 
 		//TODO 04 Exec TC[20,X] using pus_service20_exec_tc
 
-
+		case (20):
+					pus_service20_exec_tc(&mTCHandler);
+					break;
 		default:
 
 			break;
