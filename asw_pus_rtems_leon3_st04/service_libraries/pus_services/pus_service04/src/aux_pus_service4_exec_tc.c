@@ -102,12 +102,15 @@ void pus_service4_exec_TC_4_1(tc_handler_t *ptc_handler) {
 				//Use Max->TM and Max OBT->TM as example
 
 				//Min -> TM
+				error += pus_services_TM_X_Y_write_saved_PIDValue(&tm_handler,
+										PID, &ParamStats[i].min);
 
 
 
 
 				//Min OBT -> TM
-
+				error += tm_handler_append_uint32_appdata_field(&tm_handler,
+										ParamStats[i].min_obt);
 
 
 
@@ -232,18 +235,15 @@ void pus_service4_exec_TC_4_7(tc_handler_t *ptc_handler) {
 					//3) Generate TM[1,8] if (error==true)
 						//(use pus_service1_tx_TM_1_8_PID_stat_undefined
 						//to report this error)
+				error = pus_service4_delete_PID_stats(PID);
 
+								if (!error) {
+									pus_service1_tx_TM_1_7(ptc_handler);
 
+								} else {
 
-
-
-
-
-
-
-
-
-
+									pus_service1_tx_TM_1_8_not_free_stats_config(ptc_handler, PID);
+								}
 			} else {	//If not valid PID
 
 				pus_service1_tx_TM_1_4_PID_not_valid(ptc_handler, PID);
